@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "953283156201",
+    "firebase_url": "https://soundrecorder-3b488.firebaseio.com",
+    "project_id": "soundrecorder-3b488",
+    "storage_bucket": "soundrecorder-3b488.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953283156201:android:2ad1e027ebae9535",
+        "android_client_info": {
+          "package_name": "com.example.soundrecorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953283156201-bqk88s7ok08m8f76bfaht30tsvjundoi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.soundrecorder",
+            "certificate_hash": "350518f600d54a7304d74da77e218fdf68fd12c6"
+          }
+        },
+        {
+          "client_id": "953283156201-185q3a9tgbj2vtpf496u5gus14vaph7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTrXqLUQcRrN0sCGAyU2KIE-es73NgSSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953283156201-185q3a9tgbj2vtpf496u5gus14vaph7f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

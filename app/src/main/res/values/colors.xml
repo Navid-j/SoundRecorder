@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#039BE5</color>
+    <color name="Primary">#0277BD</color>
+    <color name="colorPrimaryDark">#283593</color>
+    <color name="colorAccent">#F3D406</color>
+    <color name="primary_light">#FFCDD2</color>
+    <color name="primary_text">#212121</color>
+    <color name="seccendary">#727272</color>
+    <color name="divider">#ffffff</color>
+    <color name="text">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="tabstrip">#B42929</color>
+
+    <color name="primary">#0277BD</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="accent">#FFC107</color>
+    <color name="secondary_text">#727272</color>
+
+    <color name="tab_strip">#283593</color>
+
+
+</resources>
