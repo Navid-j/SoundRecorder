@@ -1,12 +1,22 @@
 package com.example.soundrecorder.fragments;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.soundrecorder.R;
 import com.example.soundrecorder.RecordingService;
+import com.example.soundrecorder.activities.MainActivity;
 
 import java.io.File;
 
@@ -37,6 +48,11 @@ public class RecordFragment extends Fragment {
     ProgressBar progressBar;
     ProgressBar progressBarLoad;
 
+    private static final int REQUEST_PERMISSION_AUDIO_RECORD = 100;
+    private static final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = 101;
+    private SharedPreferences permissionStatus;
+    private  boolean sendToSettings = false;
+
     long timeWhenPaused = 0; //start time when user clicks the pause button
 
     public static RecordFragment newIntence (int position){
@@ -46,8 +62,6 @@ public class RecordFragment extends Fragment {
         b.putInt("position" , position);
         recordFragment.setArguments(b);
         return recordFragment;
-
-
     }
 
     @Nullable
@@ -76,8 +90,57 @@ public class RecordFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                onRecord(startRecording);
-                startRecording = !startRecording;
+                // Request Permission
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)  != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.RECORD_AUDIO)
+                        || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                        // show info about  why you need to this permission
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Need Record and Storage Permission");
+                        builder.setMessage("This app needs Record and Storage permission");
+                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_AUDIO_RECORD);
+                            }
+                        });
+                        builder.show();
+                    }else if (permissionStatus.getBoolean(Manifest.permission.RECORD_AUDIO,false)){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Need Record and Storage Permission");
+                        builder.setMessage("This app needs Record and Storage permission");
+                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                sendToSettings = true;
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getActivity().getPackageName(),null);
+                                intent.setData(uri);
+                                Toast.makeText(getContext(),"Go to permissions to Grant Microphone and Storage ",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }else {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_AUDIO_RECORD);
+                    }
+                    permissionStatus =PreferenceManager.getDefaultSharedPreferences(getContext());
+                    SharedPreferences.Editor editor = permissionStatus.edit();
+                    editor.putBoolean(Manifest.permission.RECORD_AUDIO,true);
+                    editor.apply();
+                }else {
+                    Toast.makeText(getContext(),"we got the permission",Toast.LENGTH_LONG).show();
+                    onRecord(startRecording);
+                    startRecording = !startRecording;
+                }
             }
         });
 

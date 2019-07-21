@@ -2,6 +2,7 @@ package com.example.soundrecorder;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.IBinder;
