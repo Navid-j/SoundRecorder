@@ -22,8 +22,15 @@
     <!-- Dialogs -->
     <string name="dialog_title_delete">تایید حذف...</string>
 
+    <!-- Permission Dialog-->
+    <string name="need_permission_title"> دسترسی ضبط و ذخیره لازم است.</string>
+    <string name="need_permission_message">این برنامه دسترسی ضبط و ذخیره لازم دارد.</string>
+    <string name="grant">قبول</string>
+    <string name="go_permission_setting">برو به مجوزها و مجوز میکروفون و ذخیره سازی را فعال کن.</string>
+    <string name="got_permission">دسترسی برای ضبط فعال شد.</string>
+
     <string name="dialog_text_delete">مطمئنی میخوای فایل حذف بشه ؟</string>
-    <string name="dialog_title_licenses">لایسنس متن باز</string>
+    <string name="dialog_title_licenses">درباره ضبط صدا</string>
     <string name="dialog_title_share">اشتراک گذاری</string>
     <string name="dialog_title_rename">تغییر نام</string>
     <string name="dialog_title_options">تنظیمات</string>
@@ -52,11 +59,11 @@
     <string name="pref_high_quality_title">فعال کردن ضبط با کیفیت بالا</string>
     <string name="pref_high_quality_desc">ضبط با کیفیت بالا</string>
     <string name="pref_about_key">درباره</string>
-    <string name="pref_about_title">درباره</string>
+    <string name="pref_about_version">نسخه برنامه</string>
     <string name="pref_about_desc">v%s</string>
     <string name="lang_key">زبان</string>
     <string name="lang_title">تنظیمات زبان</string>
     <string name="lang_change">تغییر زبان</string>
-    <string name="languageconfig">change language to English</string>
+    <string name="language_config">change language to English</string>
 
 </resources>

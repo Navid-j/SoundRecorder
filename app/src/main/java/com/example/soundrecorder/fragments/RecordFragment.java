@@ -97,9 +97,9 @@ public class RecordFragment extends Fragment {
                         || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                         // show info about  why you need to this permission
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Need Record and Storage Permission");
-                        builder.setMessage("This app needs Record and Storage permission");
-                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                        builder.setTitle(R.string.need_permission_title);
+                        builder.setMessage(R.string.need_permission_message);
+                        builder.setPositiveButton(R.string.grant, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
@@ -109,9 +109,9 @@ public class RecordFragment extends Fragment {
                         builder.show();
                     }else if (permissionStatus.getBoolean(Manifest.permission.RECORD_AUDIO,false)){
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Need Record and Storage Permission");
-                        builder.setMessage("This app needs Record and Storage permission");
-                        builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                        builder.setTitle(R.string.need_permission_title);
+                        builder.setMessage(R.string.need_permission_message);
+                        builder.setPositiveButton(R.string.grant, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
@@ -119,10 +119,10 @@ public class RecordFragment extends Fragment {
                                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                 Uri uri = Uri.fromParts("package", getActivity().getPackageName(),null);
                                 intent.setData(uri);
-                                Toast.makeText(getContext(),"Go to permissions to Grant Microphone and Storage ",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(),R.string.go_permission_setting,Toast.LENGTH_LONG).show();
                             }
                         });
-                        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(R.string.dialog_action_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
@@ -137,7 +137,7 @@ public class RecordFragment extends Fragment {
                     editor.putBoolean(Manifest.permission.RECORD_AUDIO,true);
                     editor.apply();
                 }else {
-                    Toast.makeText(getContext(),"we got the permission",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),R.string.got_permission,Toast.LENGTH_LONG).show();
                     onRecord(startRecording);
                     startRecording = !startRecording;
                 }

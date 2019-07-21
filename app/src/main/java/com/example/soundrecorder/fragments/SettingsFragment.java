@@ -41,14 +41,14 @@ public class SettingsFragment extends PreferenceFragment {
         aboutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                LicensesFragment licensesFragment = new LicensesFragment();
-                licensesFragment.show(((SettingsActivity)getActivity()).getSupportFragmentManager().beginTransaction(), "dialog_licenses");
+                AboutFragment aboutFragment = new AboutFragment();
+                aboutFragment.show(((SettingsActivity)getActivity()).getSupportFragmentManager().beginTransaction(), "dialog_licenses");
                 return true;
             }
         });
 
          final Preference lang = findPreference(getString(R.string.lang_key));
-            lang.setSummary(getString(R.string.languageconfig));
+            lang.setSummary(getString(R.string.language_config));
             lang.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

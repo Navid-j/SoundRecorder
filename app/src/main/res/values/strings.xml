@@ -22,8 +22,15 @@
     <!-- Dialogs -->
     <string name="dialog_title_delete">Confirm Delete...</string>
 
+    <!-- Permission Dialog-->
+    <string name="need_permission_title">Need Record and Storage Permission</string>
+    <string name="need_permission_message">This app needs Record and Storage permission</string>
+    <string name="grant">Grant</string>
+    <string name="go_permission_setting">Go to permissions to Grant Microphone and Storage.</string>
+    <string name="got_permission">we got the permission.</string>
+
     <string name="dialog_text_delete">Are you sure you would like to delete this file?</string>
-    <string name="dialog_title_licenses">Open Source Licenses</string>
+    <string name="dialog_title_licenses">About Sound Recorder</string>
     <string name="dialog_title_share">Share File</string>
     <string name="dialog_title_rename">Rename File</string>
     <string name="dialog_title_options">Options</string>
@@ -52,11 +59,12 @@
     <string name="pref_high_quality_title">Enable High Quality Recording</string>
     <string name="pref_high_quality_desc">Record in CD Quality</string>
     <string name="pref_about_key">pref_about</string>
-    <string name="pref_about_title">About</string>
+    <string name="pref_about_version">Version</string>
     <string name="pref_about_desc">v%s</string>
     <string name="lang_key">language</string>
     <string name="lang_title">Language Option</string>
     <string name="lang_change">change language</string>
-    <string name="languageconfig">تغییر زبان به فارسی</string>
+    <string name="language_config">تغییر زبان به فارسی</string>
+
 
 </resources>

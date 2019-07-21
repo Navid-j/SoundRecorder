@@ -9,11 +9,11 @@ import android.view.View;
 
 import com.example.soundrecorder.R;
 
-public class LicensesFragment extends DialogFragment {
+public class AboutFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater dialogInflater = getActivity().getLayoutInflater();
-        View openSourceLicensesView = dialogInflater.inflate(R.layout.fragment_licenses, null);
+        View openSourceLicensesView = dialogInflater.inflate(R.layout.fragment_about, null);
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         dialogBuilder.setView(openSourceLicensesView)
