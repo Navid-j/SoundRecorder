@@ -46,40 +46,5 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
-
-         final Preference lang = findPreference(getString(R.string.lang_key));
-            lang.setSummary(getString(R.string.language_config));
-            lang.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-
-
-                    if ("fa".equals(Locale.getDefault().getLanguage())){
-
-                        Resources resources = getResources();
-                        Configuration configuration = resources.getConfiguration();
-                        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-                        configuration.setLocale(Locale.forLanguageTag("en"));
-                        resources.updateConfiguration(configuration, displayMetrics);
-                        Locale.setDefault(new Locale("en"));
-                        getActivity().startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
-
-                    }else {
-
-                        Resources resources = getResources();
-                        Configuration configuration = resources.getConfiguration();
-                        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-                        configuration.setLocale(Locale.forLanguageTag("fa"));
-                        resources.updateConfiguration(configuration, displayMetrics);
-                        Locale.setDefault(new Locale("fa"));
-                        getActivity().startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
-
-                    }
-
-                    getActivity().finish();
-                    return true;
-
-                }
-            });
     }
 }

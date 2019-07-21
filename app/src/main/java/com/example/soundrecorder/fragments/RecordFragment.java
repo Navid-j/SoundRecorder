@@ -137,7 +137,6 @@ public class RecordFragment extends Fragment {
                     editor.putBoolean(Manifest.permission.RECORD_AUDIO,true);
                     editor.apply();
                 }else {
-                    Toast.makeText(getContext(),R.string.got_permission,Toast.LENGTH_LONG).show();
                     onRecord(startRecording);
                     startRecording = !startRecording;
                 }

@@ -8,8 +8,4 @@
         android:key="@string/pref_about_key"
         android:title="@string/pref_about_version"
         android:summary="@string/pref_about_desc"/>
-    <Preference
-        android:key="@string/lang_key"
-        android:title="@string/lang_title"
-        android:summary="@string/lang_change"/>
 </PreferenceScreen>

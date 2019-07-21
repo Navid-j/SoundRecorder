@@ -27,7 +27,6 @@
     <string name="need_permission_message">This app needs Record and Storage permission</string>
     <string name="grant">Grant</string>
     <string name="go_permission_setting">Go to permissions to Grant Microphone and Storage.</string>
-    <string name="got_permission">we got the permission.</string>
 
     <string name="dialog_text_delete">Are you sure you would like to delete this file?</string>
     <string name="dialog_title_licenses">About Sound Recorder</string>

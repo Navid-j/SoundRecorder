@@ -27,7 +27,6 @@
     <string name="need_permission_message">این برنامه دسترسی ضبط و ذخیره لازم دارد.</string>
     <string name="grant">قبول</string>
     <string name="go_permission_setting">برو به مجوزها و مجوز میکروفون و ذخیره سازی را فعال کن.</string>
-    <string name="got_permission">دسترسی برای ضبط فعال شد.</string>
 
     <string name="dialog_text_delete">مطمئنی میخوای فایل حذف بشه ؟</string>
     <string name="dialog_title_licenses">درباره ضبط صدا</string>
