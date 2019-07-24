@@ -1,23 +1,17 @@
 package com.example.soundrecorder.fragments;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Notification;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +25,18 @@ import android.widget.Toast;
 
 import com.example.soundrecorder.R;
 import com.example.soundrecorder.RecordingService;
-import com.example.soundrecorder.activities.MainActivity;
 
 import java.io.File;
+
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class RecordFragment extends Fragment {
 
     Button recordButton = null;
     Button pauseButton = null;
-    ImageView  firstRecordButton = null;
-    TextView  pauseViewText= null;
+    ImageView firstRecordButton = null;
+    TextView pauseViewText = null;
     int RecordingPrompetCount = 0;
     boolean startRecording = true;
     boolean pauseRecording = true;
@@ -49,17 +45,13 @@ public class RecordFragment extends Fragment {
     ProgressBar progressBarLoad;
 
     private static final int REQUEST_PERMISSION_AUDIO_RECORD = 100;
-    private static final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = 101;
-    private SharedPreferences permissionStatus;
-    private  boolean sendToSettings = false;
-
     long timeWhenPaused = 0; //start time when user clicks the pause button
 
-    public static RecordFragment newIntence (int position){
+    public static RecordFragment newIntence(int position) {
 
         RecordFragment recordFragment = new RecordFragment();
         Bundle b = new Bundle();
-        b.putInt("position" , position);
+        b.putInt("position", position);
         recordFragment.setArguments(b);
         return recordFragment;
     }
@@ -68,7 +60,7 @@ public class RecordFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.record_fragment,container,false);
+        View view = inflater.inflate(R.layout.record_fragment, container, false);
 
         chronometer = view.findViewById(R.id.chronometer);
         pauseViewText = view.findViewById(R.id.pause_text);
@@ -84,59 +76,44 @@ public class RecordFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         progressBarLoad.setVisibility(View.INVISIBLE);
 
-
-        firstRecordButton.setOnClickListener(new View.OnClickListener(){
+        firstRecordButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getContext(),
+                        RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(getContext(),
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
 
-                // Request Permission
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO)  != PackageManager.PERMISSION_GRANTED
-                    || ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.RECORD_AUDIO)
-                        || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                        // show info about  why you need to this permission
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle(R.string.need_permission_title);
-                        builder.setMessage(R.string.need_permission_message);
-                        builder.setPositiveButton(R.string.grant, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_AUDIO_RECORD);
-                            }
-                        });
-                        builder.show();
-                    }else if (permissionStatus.getBoolean(Manifest.permission.RECORD_AUDIO,false)){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle(R.string.need_permission_title);
-                        builder.setMessage(R.string.need_permission_message);
-                        builder.setPositiveButton(R.string.grant, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                sendToSettings = true;
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getActivity().getPackageName(),null);
-                                intent.setData(uri);
-                                Toast.makeText(getContext(),R.string.go_permission_setting,Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        builder.setNegativeButton(R.string.dialog_action_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        builder.show();
-                    }else {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_AUDIO_RECORD);
+                    //When permission is not granted by user, show them message why this permission is needed.
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            RECORD_AUDIO) ||
+                            ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        Toast.makeText(getContext(), R.string.go_permission_setting, Toast.LENGTH_LONG).show();
+
+                        //Give user option to still opt-in the permissions
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{RECORD_AUDIO, WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSION_AUDIO_RECORD);
+
+                    } else {
+                        // Show user dialog to grant permission to record audio
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{RECORD_AUDIO, WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSION_AUDIO_RECORD);
                     }
-                    permissionStatus =PreferenceManager.getDefaultSharedPreferences(getContext());
-                    SharedPreferences.Editor editor = permissionStatus.edit();
-                    editor.putBoolean(Manifest.permission.RECORD_AUDIO,true);
-                    editor.apply();
-                }else {
+                }
+                //If permission is granted, then go ahead recording audio
+                else if (ContextCompat.checkSelfPermission(getContext(),
+                        RECORD_AUDIO)
+                        == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+
+                    //Go ahead with recording audio now
                     onRecord(startRecording);
                     startRecording = !startRecording;
                 }
@@ -152,7 +129,7 @@ public class RecordFragment extends Fragment {
             }
         });
 
-        pauseButton= view.findViewById(R.id.pauseBtn);
+        pauseButton = view.findViewById(R.id.pauseBtn);
         pauseButton.setVisibility(View.INVISIBLE);
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
@@ -169,33 +146,34 @@ public class RecordFragment extends Fragment {
 
     private void onPauseRecord(boolean pauseRecording) {
 
-        if (pauseRecording){ //pause recording
+        if (pauseRecording) { //pause recording
             timeWhenPaused = chronometer.getBase() - SystemClock.elapsedRealtime();
             chronometer.stop();
             progressBarLoad.setVisibility(View.INVISIBLE);
             pauseViewText.setVisibility(View.VISIBLE);
             pauseButton.setBackgroundResource(R.drawable.ic_play_white);
-            Toast.makeText(getActivity(),"Pause Recording.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Pause Recording.", Toast.LENGTH_SHORT).show();
 
 
-        }else { //resume recording
+        } else { //resume recording
 
             pauseButton.setBackgroundResource(R.drawable.ic_pause_white);
             chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenPaused);
             chronometer.start();
             progressBarLoad.setVisibility(View.VISIBLE);
             pauseViewText.setVisibility(View.INVISIBLE);
-            Toast.makeText(getActivity(),"Resume Recording.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Resume Recording.", Toast.LENGTH_SHORT).show();
 
         }
     }
+
 
     private Notification onRecord(boolean startRecording) {
 
 
         Intent i = new Intent(getActivity(), RecordingService.class);
 
-        if (startRecording){
+        if (startRecording) {
 
             pauseButton.setVisibility(View.VISIBLE);
             recordButton.setVisibility(View.VISIBLE);
@@ -203,8 +181,8 @@ public class RecordFragment extends Fragment {
             progressBarLoad.setVisibility(View.VISIBLE);
             pauseViewText.setVisibility(View.INVISIBLE);
 
-            Toast.makeText(getActivity(),"Recording Started",Toast.LENGTH_SHORT).show();
-            File folder = new File(Environment.getExternalStorageDirectory()+ "/SoundRecorder");
+            Toast.makeText(getActivity(), "Recording Started", Toast.LENGTH_SHORT).show();
+            File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
 
             if (!folder.exists()) {
                 folder.mkdir();
@@ -217,8 +195,7 @@ public class RecordFragment extends Fragment {
 
             RecordingPrompetCount++;
 
-        }
-        else {
+        } else {
             //stop recording
             pauseButton.setVisibility(View.INVISIBLE);
             recordButton.setVisibility(View.INVISIBLE);

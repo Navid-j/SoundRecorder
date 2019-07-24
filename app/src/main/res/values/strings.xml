@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- About -->
-    <string name="link">Website: github.com/Navid-j</string>
 
     <!-- Toolbar -->
     <string name="app_name">Voice Recorder</string>
-    <string name="action_licenses">Licenses</string>
     <string name="action_settings">Settings</string>
     <string name="tab_title_record">Record</string>
     <string name="tab_title_saved_recordings">Saved Recordings</string>
@@ -60,10 +58,6 @@
     <string name="pref_about_key">pref_about</string>
     <string name="pref_about_version">Version</string>
     <string name="pref_about_desc">v%s</string>
-    <string name="lang_key">language</string>
-    <string name="lang_title">Language Option</string>
-    <string name="lang_change">change language</string>
-    <string name="language_config">تغییر زبان به فارسی</string>
 
 
 </resources>

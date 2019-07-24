@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- About -->
-    <string name="link">وبسایت: github.com/Navid-j</string>
 
     <!-- Toolbar -->
     <string name="app_name">ضبط صدا</string>
-    <string name="action_licenses">لایسنس</string>
     <string name="action_settings">تنظیمات</string>
     <string name="tab_title_record">ضبط</string>
     <string name="tab_title_saved_recordings">صداهای ذخیره شده</string>
@@ -60,9 +58,5 @@
     <string name="pref_about_key">درباره</string>
     <string name="pref_about_version">نسخه برنامه</string>
     <string name="pref_about_desc">v%s</string>
-    <string name="lang_key">زبان</string>
-    <string name="lang_title">تنظیمات زبان</string>
-    <string name="lang_change">تغییر زبان</string>
-    <string name="language_config">change language to English</string>
 
 </resources>
